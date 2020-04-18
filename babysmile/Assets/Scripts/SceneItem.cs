@@ -9,12 +9,6 @@ public class SceneItem : MonoBehaviour
     public int id;
 
     private bool _showHint;
-    public bool ShowHint
-    {
-        get => _showHint;
-        set => _showHint = value;
-    }
-
     private bool _showInteract;
 
     public void Awake()
@@ -39,5 +33,18 @@ public class SceneItem : MonoBehaviour
     {
         _showInteract = interact;
         Debug.Log($"GameObject [{name}]], Interact=[{interact}]");
+    }
+
+    public void ShowHint(bool show)
+    {
+        _showHint = show;
+        if (show)
+        {
+            transform.localScale = Vector3.one * 1.1f;
+        }
+        else
+        {
+            transform.localScale = Vector3.one;
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using LD46;
 using UnityEngine;
+using UnityEngine.InputSystem.Interactions;
 
 public class CharacterControl : MonoBehaviour
 {
@@ -23,11 +24,40 @@ public class CharacterControl : MonoBehaviour
     {
         _input = new InputControl();
 
+        _input.KeyboardCharacterControl.Interact.started += context =>
+        {
+            if (inputType == InputType.Keyboard)
+            {
+                if (context.interaction is KeepHoldInteraction)
+                {
+                    CharacterInteractHold(true);
+                }
+            }
+        };
+
         _input.KeyboardCharacterControl.Interact.performed += context =>
         {
             if (inputType == InputType.Keyboard)
             {
-                CharacterInteract();                
+                if (context.interaction is TapInteraction)
+                {
+                    CharacterInteractTap();
+                }
+                else if (context.interaction is KeepHoldInteraction)
+                {
+                    CharacterInteractHold(false);
+                }
+            }
+        };
+        
+        _input.ControllerCharacterControl.Interact.started += context =>
+        {
+            if (inputType == InputType.Controller)
+            {
+                if (context.interaction is KeepHoldInteraction)
+                {
+                    CharacterInteractHold(true);
+                }
             }
         };
 
@@ -35,7 +65,14 @@ public class CharacterControl : MonoBehaviour
         {
             if (inputType == InputType.Controller)
             {
-                CharacterInteract();                
+                if (context.interaction is TapInteraction)
+                {
+                    CharacterInteractTap();
+                }
+                else if (context.interaction is KeepHoldInteraction)
+                {
+                    CharacterInteractHold(false);
+                }
             }
         };
     }
@@ -98,11 +135,16 @@ public class CharacterControl : MonoBehaviour
     }
 
 
-    private void CharacterInteract()
+    private void CharacterInteractTap()
     {
         if (componentInteract != null)
         {
             componentInteract.FireActiveItemInteraction();
         }
+    }
+
+    private void CharacterInteractHold(bool holding)
+    {
+        
     }
 }

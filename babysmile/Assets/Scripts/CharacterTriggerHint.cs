@@ -11,7 +11,7 @@ namespace LD46
             if (other.CompareTag("InteractItem"))
             {
                 var item = other.gameObject.GetComponent<SceneItem>();
-                item.ShowHint = true;
+                item.ShowHint(true);
             }
         }
 
@@ -20,7 +20,7 @@ namespace LD46
             if (other.CompareTag("InteractItem"))
             {
                 var item = other.gameObject.GetComponent<SceneItem>();
-                item.ShowHint = false;
+                item.ShowHint(false);
             }
         }
     }
