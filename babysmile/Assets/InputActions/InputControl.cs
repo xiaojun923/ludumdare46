@@ -34,7 +34,7 @@ namespace LD46
                     ""id"": ""1d531d1c-47a4-45b2-a4b3-770b169814db"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Tap,KeepHold""
                 }
             ],
             ""bindings"": [
@@ -135,7 +135,7 @@ namespace LD46
                     ""id"": ""c5257de5-518e-4371-874c-368e5f59a116"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Tap,KeepHold""
                 }
             ],
             ""bindings"": [
