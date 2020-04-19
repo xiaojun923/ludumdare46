@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 41224374480976068}
   - component: {fileID: 9063903159755834098}
   - component: {fileID: 3383886182814481931}
+  - component: {fileID: 2843023840488674553}
+  - component: {fileID: 8569073364803926554}
   m_Layer: 0
   m_Name: BearToy
   m_TagString: Untagged
@@ -88,3 +90,30 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &2843023840488674553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3947735482180324055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 308742f0c2d9d0946911ade12ac9cd0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  id: 5
+--- !u!65 &8569073364803926554
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3947735482180324055}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.8382779, y: 0.86954486, z: 0.63820946}
+  m_Center: {x: 0, y: -0.010175064, z: 0.000000014901161}

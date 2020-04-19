@@ -29,6 +29,13 @@ public class CharacterControl : MonoBehaviour
     private SceneItemType _interactType;
     public SceneItemType InteractType => _interactType;
 
+    private int _inHandId;
+    public int InHandId
+    {
+        get => _inHandId;
+        set => _inHandId = value;
+    }
+
     public int roleId;
 
     private void OnCharacterMove(object msg)
@@ -53,6 +60,10 @@ public class CharacterControl : MonoBehaviour
         if (_interactTarget > 0)
         {
             SceneControl.Instance.PlayerInteractTap(gameObject, _interactTarget, _interactType);
+        }
+        else if (_inHandId > 0)
+        {
+            SceneControl.Instance.PlayerInteractTap(gameObject, _inHandId, _interactType);
         }
     }
 

@@ -55,14 +55,25 @@ namespace LD46
             }
         }
 
-        private GameObject GetNearestElement(List<GameObject> list, GameObject player)
+        private GameObject GetNearestElement(List<GameObject> list, GameObject player, int excludeId = 0)
         {
             float dMin = Single.MaxValue;
             int iMin = -1;
-        
+            bool needRefresh = false;
+            
             for (var i = 0; i < list.Count; i++)
             {
                 var go = list[i];
+                if (go == null)
+                {
+                    needRefresh = true;
+                    continue;
+                }
+                int id = go.GetComponent<SceneItem>().id;
+                if (excludeId > 0 && id == excludeId)
+                {
+                    continue;
+                }
                 float d = Vector3.Distance(player.transform.position, go.transform.position);
                 if (d < dMin)
                 {
@@ -71,17 +82,34 @@ namespace LD46
                 }
             }
 
+            if (needRefresh)
+            {
+                RefreshItemList();
+            }
+
             return iMin >= 0 ? list[iMin] : null;
         }
 
         public GameObject GetNearestItem(GameObject player)
         {
-            return GetNearestElement(_items, player);
+            int exclude = player.GetComponent<CharacterControl>().InHandId;
+            return GetNearestElement(_items, player, exclude);
         }
 
         public GameObject GetNearestTable(GameObject player)
         {
             return GetNearestElement(_tables, player);
+        }
+
+        public void RefreshItemList()
+        {
+            for (int i = 0; i < _items.Count; i++)
+            {
+                if (_items[i] == null)
+                {
+                    _items.RemoveAt(i);
+                }
+            }
         }
     }
 }

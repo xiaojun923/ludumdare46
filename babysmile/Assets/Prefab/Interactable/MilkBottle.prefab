@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5953306748498102067}
   - component: {fileID: 3442265573212650757}
   - component: {fileID: 9005487479505977852}
+  - component: {fileID: 9078456756192324275}
   m_Layer: 0
   m_Name: MilkBottle
   m_TagString: Untagged
@@ -81,3 +82,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &9078456756192324275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7261277228841612576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 308742f0c2d9d0946911ade12ac9cd0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  id: 1

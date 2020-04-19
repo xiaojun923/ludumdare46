@@ -96,18 +96,12 @@ namespace LD46
             }
             else
             {
-                // var commands = BabySmileManager.MissionComplete(target);
-                var commands = new List<Tuple<int, int>>();
+                var commands = BabySmileManager.MissionComplete(role, target);
                 foreach (var (cmd, data) in commands)
                 {
                     ProcessCmd(cmd, player, target, data);
                 }
             }
-        }
-
-        private bool IsTable(int id)
-        {
-            return InteractTables.ContainsKey(id);
         }
 
         private void ProcessCmd(int cmd, GameObject player, int target, int data)
@@ -127,7 +121,7 @@ namespace LD46
                     SceneUpdateItemStatus(data);
                     break;
                 case DataCommand.PutOnTable:
-                    PlayerPutItemOnTable(data, target);
+                    PlayerPutItemOnTable(player, data, target);
                     break;
                 case DataCommand.PutOnFloor:
                     PlayerPutItemOnFloor(player, target);
@@ -153,11 +147,13 @@ namespace LD46
             itemGo.transform.localPosition = Vector3.zero;
             itemGo.transform.localRotation = Quaternion.identity;
             itemGo.GetComponent<SceneItem>().ShowHint(false);
+
+            player.GetComponent<CharacterControl>().InHandId = itemId;
         }
 
         private void PlayerHandSpawnItem(GameObject player, int configId)
         {
-            var obj = AssetDatabase.LoadAssetAtPath<GameObject>($"Assets/Prefab/RuntimeSpawn/Spawn{configId}.prefab");
+            var obj = AssetDatabase.LoadAssetAtPath<GameObject>($"Assets/Prefab/Interactable/RuntimeSpawn/FlowerSeed.prefab");
             if (obj == null)
             {
                 Debug.LogError("Prefab路径不存在，实例化失败");
@@ -165,11 +161,19 @@ namespace LD46
             }
             
             var t = player.transform.Find("ItemAnchor");
+            
             var itemGo = Object.Instantiate(obj, t, false);
             itemGo.tag = "InteractItem";
-
+            itemGo.transform.parent = t;
+            itemGo.transform.localPosition = Vector3.zero;
+            itemGo.transform.localRotation = Quaternion.identity;
+            itemGo.GetComponent<SceneItem>().ShowHint(false);
             itemGo.GetComponent<SceneItem>().id = InteractItems.Count;
-            InteractItems.Add(InteractItems.Count, itemGo);
+            
+            int index = InteractItems.Count + 1;
+            InteractItems.Add(index, itemGo);
+            
+            player.GetComponent<CharacterControl>().InHandId = index;
         }
 
         private void SceneDestroyItem(int itemId)
@@ -194,7 +198,7 @@ namespace LD46
             
         }
 
-        private void PlayerPutItemOnTable(int itemId, int tableId)
+        private void PlayerPutItemOnTable(GameObject player, int itemId, int tableId)
         {
             if (!InteractItems.ContainsKey(itemId))
             {
@@ -221,6 +225,8 @@ namespace LD46
             itemGo.transform.localPosition = Vector3.zero;
             itemGo.transform.localRotation = Quaternion.identity;
             itemGo.GetComponent<SceneItem>().ShowHint(false);
+            
+            player.GetComponent<CharacterControl>().InHandId = 0;
         }
         
         private void PlayerPutItemOnFloor(GameObject player, int itemId)
@@ -233,6 +239,8 @@ namespace LD46
             var itemGo = InteractItems[itemId];
             
             itemGo.transform.parent = null;
+
+            player.GetComponent<CharacterControl>().InHandId = 0;
         }
 
         private void PlayerStartCast(GameObject player, int itemId, float duration)
