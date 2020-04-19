@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     //元指令数组：每一项都是Tuple<int,int>类型，第一个int代表指令类型，第二个是指令参数
 
     //指令类型：指令参数
+    //0: 空指令
     //1：拾取物品：物品ID 
     //2：拾取新产生的物品：物品Type
     //3：将手里物品放到桌子上：桌子ID
@@ -30,21 +31,25 @@ public class GameManager : MonoBehaviour
     //9：婴儿快乐值变化 新值
     //10：钱包值变化 新值
 
-    // 当前table上的物品序号，没有物品为0
-    public List<int> inTableList = new List<int>();
-    public List<Tuple<int, int>> deepOptList = new List<Tuple<int, int>>();
-    public Dictionary<Tuple<int, int>, int> deepEftDic = new Dictionary<Tuple<int, int>, int>();
 
-    List<Tuple<int, int>> getDeepOpt(int inTableID, int inHandID)
+    // 当前table上的物品序号，没有物品为0
+    List<int> inTableList = new List<int>();
+    Dictionary<Tuple<int, int>, OrderSet> itemOrderMapping = new Dictionary<Tuple<int, int>, OrderSet>();
+
+    List<Tuple<int, int>> getOrderList(int inTableID, int inHandID)
     {
         Tuple<int, int> key = new Tuple<int, int>(inHandID, inTableID);
-        if (deepEftDic.ContainsKey(key))
+        if (itemOrderMapping.ContainsKey(key))
         {
-            
+            return itemOrderMapping[key].Order;
+        }
+        else
+        {
+            return new List<Tuple<int, int>>();
         }
     }
 
-    List<Tuple<int,int>> ShortOpt(int tableID, int inHandID)
+    List<Tuple<int,int>> OperationCheck(int tableID, int inHandID)
     {
         List<Tuple<int, int>> orderSet = new List<Tuple<int, int>>();
         int inTableID = inTableList[tableID];
@@ -65,18 +70,25 @@ public class GameManager : MonoBehaviour
         else if(inTableID > 0 && inHandID > 0)
         {
             //桌子有，手里有：将手里东西施加到桌子上东西上，返回施加结果
-            orderSet.AddRange(getDeepOpt(inTableID, inHandID));
+            orderSet.AddRange(getOrderList(inTableID, inHandID));
         }
         return orderSet;
     }
 
-    void LongOpt(int inHandID, int tarID)
+    void ExecuteOrder(Tuple<int, int> item)
     {
 
+    }
 
+}
 
+class OrderSet
+{
+    List<Tuple<int, int>> orderList;
 
-
+    public List<Tuple<int, int>> Order
+    {
+        get => orderList;
     }
 
 }
