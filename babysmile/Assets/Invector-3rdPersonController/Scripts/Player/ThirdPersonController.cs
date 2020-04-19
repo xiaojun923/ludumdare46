@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using LD46;
 using UnityStandardAssets.CrossPlatformInput;
 
 namespace Invector.CharacterController
@@ -40,6 +41,11 @@ namespace Invector.CharacterController
 		    UpdateAnimator();				// update animations on the Animator and their methods
 		    UpdateHUD();                    // update HUD elements like health bar, texts, etc
             //ControlCameraState();			// change CameraStates
+
+            if (speed > 0f && !stopMove)
+            {
+	            MessageSystem.SendMessage(MessageType.CharacterMove, gameObject);
+            }
         }
 
         void LateUpdate()
@@ -119,14 +125,17 @@ namespace Invector.CharacterController
 	    //**********************************************************************************//
         void ControllerInput()
         {
-            if (inputType == InputType.Mobile)
-                input = new Vector2(CrossPlatformInputManager.GetAxis("Horizontal"), CrossPlatformInputManager.GetAxis("Vertical"));
+	        var inputProvider = GetComponent<CharacterInput>();
+	        var v2 = inputProvider.GetMoveInput();
+
+	        if (inputType == InputType.Mobile)
+                input = v2;
             else if (inputType == InputType.MouseKeyboard)
-                input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+                input = v2;
             else if (inputType == InputType.Controler)
             {
                 float deadzone = 0.25f;
-                input = new Vector2(Input.GetAxis("LeftAnalogHorizontal"), Input.GetAxis("LeftAnalogVertical"));
+                input = v2;
                 if (input.magnitude < deadzone)
                     input = Vector2.zero;
                 else
@@ -162,21 +171,24 @@ namespace Invector.CharacterController
         //**********************************************************************************//
         void RunningInput()
         {
+	        var inputProvider = GetComponent<LD46.CharacterInput>();
+	        bool btnDown = inputProvider.GetRunning();
+	        
             if (inputType == InputType.Mobile)
             {
-                if (CrossPlatformInputManager.GetButtonDown("RB") && currentStamina > 0 && input.sqrMagnitude > 0.1f)
+                if (btnDown && currentStamina > 0 && input.sqrMagnitude > 0.1f)
                     canSprint = true;
-                if (CrossPlatformInputManager.GetButtonUp("RB") || currentStamina <= 0 || input.sqrMagnitude < 0.1f || strafing)
+                if (btnDown || currentStamina <= 0 || input.sqrMagnitude < 0.1f || strafing)
                     canSprint = false;
             }
             else
             {
-                if (Input.GetButtonDown("RB") && currentStamina > 0 && input.sqrMagnitude > 0.1f)
+                if (btnDown && currentStamina > 0 && input.sqrMagnitude > 0.1f)
                 {
                     if (onGround && !strafing && !crouch)
                         canSprint = true;
                 }
-                else if (Input.GetButtonUp("RB") || currentStamina <= 0 || input.sqrMagnitude < 0.1f || strafing)
+                else if (btnDown || currentStamina <= 0 || input.sqrMagnitude < 0.1f || strafing)
                     canSprint = false;
             }
 
