@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace LD46
 {
@@ -10,8 +12,9 @@ namespace LD46
         public static SceneControl Instance => _instance = _instance ?? new SceneControl();
 
         public Dictionary<int, GameObject> InteractItems = new Dictionary<int, GameObject>();
+        public Dictionary<int, GameObject> InteractTables = new Dictionary<int, GameObject>();
 
-        public int UpdateInteractTarget(GameObject player)
+        public Tuple<int, SceneItemType> UpdateInteractTarget(GameObject player)
         {
             var component = player.transform.Find("InteractTrigger").GetComponent<CharacterTriggerInteract>();
             
@@ -32,9 +35,12 @@ namespace LD46
             {
                 target = item;
             }
-            
-            int prevId = player.GetComponent<CharacterControl>().InteractTarget;
-            var prevObj = InteractItems.ContainsKey(prevId) ? InteractItems[prevId] : null;
+
+            var character = player.GetComponent<CharacterControl>();
+            int prevId = character.InteractTarget;
+            var prevType = character.InteractType;
+            var dict = prevType == SceneItemType.Item ? InteractItems : InteractTables;
+            var prevObj = dict.ContainsKey(prevId) ? dict[prevId] : null;
             var prevItem = prevObj != null ? prevObj.GetComponent<SceneItem>() : null;
 
             if (target != prevItem)
@@ -49,19 +55,22 @@ namespace LD46
                     prevItem.SetInteract(false);
                 }
 
-                return target == null ? 0 : target.id;
+                return target == null
+                    ? new Tuple<int, SceneItemType>(0, SceneItemType.Item)
+                    : new Tuple<int, SceneItemType>(target.id, target.type);
             }
 
-            return prevId;
+            return new Tuple<int, SceneItemType>(prevId, prevType);
         }
 
-        public void PlayerInteractTap(GameObject player, int target)
+        public void PlayerInteractTap(GameObject player, int target, SceneItemType type)
         {
             Debug.Log($"CharacterTap - {player.name}, {target}");
+            int role = player.GetComponent<CharacterControl>().roleId;
             
-            var commands = IsTable(target)
-                ? BabySmileManager.InteractTable(target)
-                : BabySmileManager.InteractItem(target);
+            var commands = type == SceneItemType.Table
+                ? BabySmileManager.InteractTable(role, target)
+                : BabySmileManager.InteractItem(role, target);
 
             foreach (var (cmd, data) in commands)
             {
@@ -72,10 +81,11 @@ namespace LD46
         public void PlayerInteractHold(GameObject player, int target, bool enable)
         {
             Debug.Log($"CharacterHold:{enable} - {player.name}");
-
+            
+            int role = player.GetComponent<CharacterControl>().roleId;
             if (enable)
             {
-                var commands = BabySmileManager.InteractItem(target);
+                var commands = BabySmileManager.InteractItem(role, target);
                 foreach (var (cmd, data) in commands)
                 {
                     if (cmd == (int) DataCommand.StartCast)
@@ -86,22 +96,12 @@ namespace LD46
             }
             else
             {
-                // var commands = BabySmileManager.MissionComplete(target);
-                var commands = new List<Tuple<int, int>>();
+                var commands = BabySmileManager.MissionComplete(role, target);
                 foreach (var (cmd, data) in commands)
                 {
                     ProcessCmd(cmd, player, target, data);
                 }
             }
-        }
-
-        private bool IsTable(int id)
-        {
-            if (!InteractItems.ContainsKey(id))
-            {
-                return false;
-            }
-            return InteractItems[id].GetComponent<SceneItem>().type == SceneItemType.Table;
         }
 
         private void ProcessCmd(int cmd, GameObject player, int target, int data)
@@ -147,16 +147,50 @@ namespace LD46
             itemGo.transform.localPosition = Vector3.zero;
             itemGo.transform.localRotation = Quaternion.identity;
             itemGo.GetComponent<SceneItem>().ShowHint(false);
+
+            player.GetComponent<CharacterControl>().InHandId = itemId;
         }
 
         private void PlayerHandSpawnItem(GameObject player, int configId)
         {
+            var obj = AssetDatabase.LoadAssetAtPath<GameObject>($"Assets/Prefab/Interactable/RuntimeSpawn/FlowerSeed.prefab");
+            if (obj == null)
+            {
+                Debug.LogError("Prefab路径不存在，实例化失败");
+                return;
+            }
             
+            var t = player.transform.Find("ItemAnchor");
+            
+            var itemGo = Object.Instantiate(obj, t, false);
+            itemGo.tag = "InteractItem";
+            itemGo.transform.parent = t;
+            itemGo.transform.localPosition = Vector3.zero;
+            itemGo.transform.localRotation = Quaternion.identity;
+            itemGo.GetComponent<SceneItem>().ShowHint(false);
+            itemGo.GetComponent<SceneItem>().id = InteractItems.Count;
+            
+            int index = InteractItems.Count + 1;
+            InteractItems.Add(index, itemGo);
+            
+            player.GetComponent<CharacterControl>().InHandId = index;
         }
 
         private void SceneDestroyItem(int itemId)
         {
-            
+            if (InteractItems.ContainsKey(itemId))
+            {
+                var item = InteractItems[itemId];
+                InteractItems.Remove(itemId);
+                Object.Destroy(item);
+            }
+
+            if (InteractTables.ContainsKey(itemId))
+            {
+                var item = InteractTables[itemId];
+                InteractTables.Remove(itemId);
+                Object.Destroy(item);
+            }
         }
 
         private void SceneUpdateItemStatus(int itemId)
@@ -166,7 +200,33 @@ namespace LD46
 
         private void PlayerPutItemOnTable(GameObject player, int itemId, int tableId)
         {
+            if (!InteractItems.ContainsKey(itemId))
+            {
+                Debug.LogError($"场景GameObject不存在Item：{itemId}");
+                return;
+            }
+            if (!InteractTables.ContainsKey(tableId))
+            {
+                Debug.LogError($"场景GameObject不存在Table：{tableId}");
+                return;
+            }
             
+            var itemGo = InteractItems[itemId];
+            var tableGo = InteractTables[tableId];
+            
+            var t = tableGo.transform.Find("ItemAnchor");
+            if (t == null)
+            {
+                Debug.LogError($"桌子对象缺少挂点：{tableGo.name}");
+                return;
+            }
+            
+            itemGo.transform.parent = t;
+            itemGo.transform.localPosition = Vector3.zero;
+            itemGo.transform.localRotation = Quaternion.identity;
+            itemGo.GetComponent<SceneItem>().ShowHint(false);
+            
+            player.GetComponent<CharacterControl>().InHandId = 0;
         }
         
         private void PlayerPutItemOnFloor(GameObject player, int itemId)
@@ -179,6 +239,8 @@ namespace LD46
             var itemGo = InteractItems[itemId];
             
             itemGo.transform.parent = null;
+
+            player.GetComponent<CharacterControl>().InHandId = 0;
         }
 
         private void PlayerStartCast(GameObject player, int itemId, float duration)

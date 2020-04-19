@@ -1,4 +1,5 @@
-﻿using LD46;
+﻿using System;
+using LD46;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -25,6 +26,18 @@ public class CharacterControl : MonoBehaviour
     private int _interactTarget;
     public int InteractTarget => _interactTarget;
 
+    private SceneItemType _interactType;
+    public SceneItemType InteractType => _interactType;
+
+    private int _inHandId;
+    public int InHandId
+    {
+        get => _inHandId;
+        set => _inHandId = value;
+    }
+
+    public int roleId;
+
     private void OnCharacterMove(object msg)
     {
         var player = msg as GameObject;
@@ -33,8 +46,7 @@ public class CharacterControl : MonoBehaviour
             return;
         }
 
-        int target = SceneControl.Instance.UpdateInteractTarget(player);
-        _interactTarget = target;
+        (_interactTarget, _interactType) = SceneControl.Instance.UpdateInteractTarget(player);
     }
 
     private void OnInteractTap(object msg)
@@ -47,7 +59,11 @@ public class CharacterControl : MonoBehaviour
         
         if (_interactTarget > 0)
         {
-            SceneControl.Instance.PlayerInteractTap(gameObject, _interactTarget);
+            SceneControl.Instance.PlayerInteractTap(gameObject, _interactTarget, _interactType);
+        }
+        else if (_inHandId > 0)
+        {
+            SceneControl.Instance.PlayerInteractTap(gameObject, _inHandId, _interactType);
         }
     }
 
