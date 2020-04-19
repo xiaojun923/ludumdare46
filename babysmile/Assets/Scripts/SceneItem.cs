@@ -6,14 +6,14 @@ using UnityEngine;
 
 public enum SceneItemType
 {
-    NormalItem,
-    ContainerItem,
+    Item,
+    Table,
 }
 
 public class SceneItem : MonoBehaviour
 {
     public int id;
-    public SceneItemType type = SceneItemType.NormalItem;
+    public SceneItemType type = SceneItemType.Item;
 
     private bool _showHint;
     private bool _showInteract;

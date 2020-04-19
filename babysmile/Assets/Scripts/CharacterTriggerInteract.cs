@@ -14,13 +14,19 @@ namespace LD46
             if (other.CompareTag("InteractItem"))
             {
                 var si = other.gameObject.GetComponent<SceneItem>();
-                if (si.type == SceneItemType.NormalItem)
+                if (si.type == SceneItemType.Item)
                 {
-                    _items.Add(other.gameObject);
+                    if (!_items.Contains(other.gameObject))
+                    {
+                        _items.Add(other.gameObject);
+                    }
                 }
-                else if (si.type == SceneItemType.ContainerItem)
+                else if (si.type == SceneItemType.Table)
                 {
-                    _tables.Add(other.gameObject);
+                    if (!_tables.Contains(other.gameObject))
+                    {
+                        _tables.Add(other.gameObject);                        
+                    }
                 }
                 else
                 {
@@ -34,11 +40,11 @@ namespace LD46
             if (other.CompareTag("InteractItem"))
             {
                 var si = other.gameObject.GetComponent<SceneItem>();
-                if (si.type == SceneItemType.NormalItem)
+                if (si.type == SceneItemType.Item)
                 {
                     _items.Remove(other.gameObject);
                 }
-                else if (si.type == SceneItemType.ContainerItem)
+                else if (si.type == SceneItemType.Table)
                 {
                     _tables.Remove(other.gameObject);
                 }
