@@ -1,150 +1,63 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using LD46;
+﻿using LD46;
 using UnityEngine;
-using UnityEngine.InputSystem.Interactions;
+using UnityEngine.SceneManagement;
+
+public enum DataCommand
+{
+    PickItem = 1,
+    SpawnItem = 2,
+    DestroyItem = 3,
+    UpdateItemStatus = 4,
+    PutOnTable = 5,
+    PutOnFloor = 6,
+    StartCast = 7,
+}
 
 public class CharacterControl : MonoBehaviour
 {
-    public enum InputType
-    {
-        None,
-        Keyboard,
-        Controller,
-    }
-
-    public InputType inputType = InputType.None;
-    
-    private InputControl _input;
-
-    #region MonoEvents
-
     public void Awake()
     {
-        _input = new InputControl();
-
-        _input.KeyboardCharacterControl.Interact.started += context =>
-        {
-            if (inputType == InputType.Keyboard)
-            {
-                if (context.interaction is KeepHoldInteraction)
-                {
-                    CharacterInteractHold(true);
-                }
-            }
-        };
-
-        _input.KeyboardCharacterControl.Interact.performed += context =>
-        {
-            if (inputType == InputType.Keyboard)
-            {
-                if (context.interaction is TapInteraction)
-                {
-                    CharacterInteractTap();
-                }
-                else if (context.interaction is KeepHoldInteraction)
-                {
-                    CharacterInteractHold(false);
-                }
-            }
-        };
-        
-        _input.ControllerCharacterControl.Interact.started += context =>
-        {
-            if (inputType == InputType.Controller)
-            {
-                if (context.interaction is KeepHoldInteraction)
-                {
-                    CharacterInteractHold(true);
-                }
-            }
-        };
-
-        _input.ControllerCharacterControl.Interact.performed += context =>
-        {
-            if (inputType == InputType.Controller)
-            {
-                if (context.interaction is TapInteraction)
-                {
-                    CharacterInteractTap();
-                }
-                else if (context.interaction is KeepHoldInteraction)
-                {
-                    CharacterInteractHold(false);
-                }
-            }
-        };
+        MessageSystem.AddListener(MessageType.CharacterMove, OnCharacterMove);
+        MessageSystem.AddListener(MessageType.InteractTap, OnInteractTap);
+        MessageSystem.AddListener(MessageType.InteractHold, OnInteractHold);
     }
 
-    public void OnEnable()
-    {
-        _input.Enable();
-    }
+    private int _interactTarget;
+    public int InteractTarget => _interactTarget;
 
-    public void OnDisable()
+    private void OnCharacterMove(object msg)
     {
-        _input.Disable();
-    }
-
-    public void Update()
-    {
-        switch (inputType)
+        var player = msg as GameObject;
+        if (player == null || player.name != name)
         {
-            case InputType.Keyboard:
-            {
-                var moveInput = _input.KeyboardCharacterControl.Move.ReadValue<Vector2>();
-                CharacterMove(moveInput);
-                break;
-            }
-            case InputType.Controller:
-            {
-                var moveInput = _input.ControllerCharacterControl.Move.ReadValue<Vector2>();
-                CharacterMove(moveInput);
-                break;
-            }
+            return;
         }
-        
+
+        int target = SceneControl.Instance.UpdateInteractTarget(player);
+        _interactTarget = target;
     }
 
-    #endregion
-
-    public CharacterTriggerInteract componentInteract;
-
-    public float moveSpeed;
-    public float rotateSpeed;
-
-    private void CharacterMove(Vector2 direction)
+    private void OnInteractTap(object msg)
     {
-        if (direction.sqrMagnitude < 0.01f)
+        var player = msg as GameObject;
+        if (player == null || player.name != name)
         {
             return;
         }
         
-        float da = -Vector2.SignedAngle(Vector2.up, direction);
-        var targetRotation = Quaternion.AngleAxis(da - 135f, Vector3.up);
-
-        var t = transform;
-        t.rotation = Quaternion.RotateTowards(t.rotation, targetRotation, rotateSpeed * Time.deltaTime);
-        t.position += moveSpeed * Time.deltaTime * t.forward;
-
-        if (componentInteract != null)
+        if (_interactTarget > 0)
         {
-            componentInteract.UpdateActiveItem(gameObject);
+            SceneControl.Instance.PlayerInteractTap(gameObject, _interactTarget);
         }
     }
 
-
-    private void CharacterInteractTap()
+    private void OnInteractHold(object msg)
     {
-        if (componentInteract != null)
+        var data = msg as MessageDataHold;
+         if (data == null || data.Player.name != name)
         {
-            componentInteract.FireActiveItemInteraction();
+            return;
         }
-    }
-
-    private void CharacterInteractHold(bool holding)
-    {
-        
+        SceneControl.Instance.PlayerInteractHold(gameObject, _interactTarget, data.Holding);
     }
 }

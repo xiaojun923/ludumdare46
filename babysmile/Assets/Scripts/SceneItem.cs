@@ -4,9 +4,16 @@ using System.Collections.Generic;
 using LD46;
 using UnityEngine;
 
+public enum SceneItemType
+{
+    Item,
+    Table,
+}
+
 public class SceneItem : MonoBehaviour
 {
     public int id;
+    public SceneItemType type = SceneItemType.Item;
 
     private bool _showHint;
     private bool _showInteract;
