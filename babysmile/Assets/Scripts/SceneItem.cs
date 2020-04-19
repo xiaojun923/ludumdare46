@@ -12,8 +12,8 @@ public enum SceneItemType
 
 public class SceneItem : MonoBehaviour
 {
-    public int id;
     public SceneItemType type = SceneItemType.Item;
+    public int id;
 
     private bool _showHint;
     private bool _showInteract;
@@ -22,7 +22,14 @@ public class SceneItem : MonoBehaviour
     {
         if (id > 0)
         {
-            SceneControl.Instance.InteractItems.Add(id, gameObject);
+            if (type == SceneItemType.Item)
+            {
+                SceneControl.Instance.InteractItems.Add(id, gameObject);
+            }
+            else if (type == SceneItemType.Table)
+            {
+                SceneControl.Instance.InteractTables.Add(id, gameObject);
+            }
             gameObject.tag = "InteractItem";
         }
         else
@@ -47,11 +54,11 @@ public class SceneItem : MonoBehaviour
         _showHint = show;
         if (show)
         {
-            transform.localScale = Vector3.one * 1.1f;
+            transform.localScale *= 1.1f;
         }
         else
         {
-            transform.localScale = Vector3.one;
+            transform.localScale /= 1.1f;
         }
     }
 }
