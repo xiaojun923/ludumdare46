@@ -13,6 +13,10 @@ public class BabySmileManager : MonoBehaviour
     void Update()
     {
         //检测婴儿数值，为空时结束游戏
+        if (healthVal == 0)
+        {
+            // Game Over
+        }
     }
 
     // 只读信息:
@@ -22,9 +26,8 @@ public class BabySmileManager : MonoBehaviour
     private static List<Tuple<int, int, int, int>> Cargo = new List<Tuple<int, int, int, int>>();
 
     // 实时更新信息
-    private static int gold = 0;
-    private static int health = 0;
-    private static int mood = 0;
+    private static int moneyVal = 0;
+    private static int healthVal = 0;
     private static List<RoleData> roleList = new List<RoleData>();
     private static List<ItemData> itemList = new List<ItemData>();
     private static List<TableData> tableList = new List<TableData>();
@@ -36,9 +39,8 @@ public class BabySmileManager : MonoBehaviour
         public int newType;
         public int taskid;
         public Tuple<int, int> poststat;
-        public int goldVal;
-        public int healthVal;
-        public int moodVal;
+        public int moneyAdd;
+        public int healthAdd;
     }
 
     class RoleData
@@ -96,7 +98,8 @@ public class BabySmileManager : MonoBehaviour
             role.handItemID = new_id;
             orderSet.Add(new Tuple<int, int>(2, effect.newType));
         }
-
+        healthVal += effect.healthAdd;
+        moneyVal += effect.moneyAdd;
         return orderSet;
     }
 
@@ -154,6 +157,26 @@ public class BabySmileManager : MonoBehaviour
     public static void SetRoleHand(int roleid,int skillid)
     {
         roleList[roleid].handItemID = skillid;
+    }
+
+    public static void ChangeHealth(int addVal)
+    {
+        healthVal += addVal;
+    }
+
+    public static void ChangeGold(int addVal)
+    {
+        moneyVal += addVal;
+    }
+
+    public static int GetHealth()
+    {
+        return healthVal;
+    }
+
+    public static int GetMoney()
+    {
+        return moneyVal;
     }
 
     public static List<Tuple<int, int>> InteractItem(int roleid, int itemid)
