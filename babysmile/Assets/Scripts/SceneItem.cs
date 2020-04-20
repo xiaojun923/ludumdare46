@@ -15,6 +15,15 @@ public class SceneItem : MonoBehaviour
     public SceneItemType type = SceneItemType.Item;
     public int id;
 
+    private int _status;
+    public int Status
+    {
+        get { return _status; }
+        set { _status = value; UpdateStatus(); }
+    }
+
+    public List<GameObject> activeStatus;
+
     private bool _showHint;
     private bool _showInteract;
 
@@ -59,6 +68,18 @@ public class SceneItem : MonoBehaviour
         else
         {
             transform.localScale /= 1.1f;
+        }
+    }
+
+    public void UpdateStatus()
+    {
+        if (activeStatus.Count > 0)
+        {
+            foreach (var go in activeStatus)
+            {
+                go.SetActive(false);
+            }
+            activeStatus[_status].SetActive(true);
         }
     }
 }

@@ -74,7 +74,10 @@ namespace LD46
 
             foreach (var (cmd, data) in commands)
             {
-                ProcessCmd(cmd, player, target, data);
+                if (cmd != DataCommand.StartCast)
+                {
+                    ProcessCmd(cmd, player, target, data);
+                }
             }
         }
 
@@ -195,7 +198,10 @@ namespace LD46
 
         private void SceneUpdateItemStatus(int itemId)
         {
-            
+            int status = BabySmileManager.GetItemState(itemId);
+            var go = SceneControl.Instance.InteractItems[itemId];
+            var item = go.GetComponent<SceneItem>();
+            item.Status = status;
         }
 
         private void PlayerPutItemOnTable(GameObject player, int itemId, int tableId)
@@ -245,7 +251,8 @@ namespace LD46
 
         private void PlayerStartCast(GameObject player, int itemId, float duration)
         {
-            
+            // 禁止角色移动并播动画
+            // 场景中对应SceneItem更新其状态UI
         }
     }
 }
