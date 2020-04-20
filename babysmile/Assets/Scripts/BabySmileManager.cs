@@ -115,9 +115,11 @@ public class BabySmileManager : MonoBehaviour
         {
             roleID = id;
             handItemID = 0;
+            score = 0;
         }
         public int roleID { get; set; } = 0;
         public int handItemID { get; set; } = 0;
+        public int score = 0;
     }
 
     class ItemData
@@ -226,6 +228,7 @@ public class BabySmileManager : MonoBehaviour
                 if (taskList[i] == effect.taskType)
                 {
                     taskList.RemoveAt(i);
+                    role.score++;
                     if(taskList.Count == 0)
                     {
                         flag = true;
@@ -248,7 +251,9 @@ public class BabySmileManager : MonoBehaviour
             orderSet.Add(new Tuple<int, int>(2, effect.newType));
         }
         healthVal += effect.healthAdd;
+        if (effect.healthAdd > 0) role.score++;
         moneyVal += effect.moneyAdd;
+        if (effect.moneyAdd > 0) role.score++;
         return orderSet;
     }
 
@@ -291,6 +296,11 @@ public class BabySmileManager : MonoBehaviour
         }
 
         return resultSet;
+    }
+
+    public static int GetRoleScore(int roleid)
+    {
+        return roleList[roleid].score;
     }
 
     public static int GetTableItemID(int tableid)
