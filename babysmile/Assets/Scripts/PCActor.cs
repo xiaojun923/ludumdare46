@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using LD46;
 using UnityEngine;
 
 public class PCActor : MonoBehaviour
@@ -21,6 +22,7 @@ public class PCActor : MonoBehaviour
         jobTh = Random.Range(minTime, maxTime);
         BabySmileManager.SetItemState(itemid, 2);
         //表现层改状态为邮件
+        SceneControl.Instance.InteractItems[itemid].GetComponent<SceneItem>().Status = 2;
     }
 
     void Update()
@@ -37,8 +39,8 @@ public class PCActor : MonoBehaviour
                 jobTh = Random.Range(minTime, maxTime);
                 BabySmileManager.SetItemState(itemid, 2);
                 //表现层改状态为邮件
-
                 OnShowJob();
+                SceneControl.Instance.InteractItems[itemid].GetComponent<SceneItem>().Status = 2;
             }
         }
         else if(pcStat == 2)
@@ -52,6 +54,7 @@ public class PCActor : MonoBehaviour
                 //表现层改状态为关机
 
                 OnEndJob();
+                SceneControl.Instance.InteractItems[itemid].GetComponent<SceneItem>().Status = 1;
             }
         }
     }

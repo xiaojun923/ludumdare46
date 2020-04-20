@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 489405937048016652}
   - component: {fileID: 8904107550987382074}
   - component: {fileID: 2931060294932369859}
+  - component: {fileID: 8015015885382076741}
+  - component: {fileID: 9190908579114396236}
+  - component: {fileID: 8257970068512693431}
   m_Layer: 0
   m_Name: SideDesk
   m_TagString: Untagged
@@ -80,3 +83,48 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &8015015885382076741
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3499826616217904415}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5582733, y: 0.6, z: 0.7}
+  m_Center: {x: -0.000000029802322, y: -0.000000014901161, z: 0}
+--- !u!114 &9190908579114396236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3499826616217904415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 308742f0c2d9d0946911ade12ac9cd0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  id: 3
+  activeStatusMap: []
+  hintObj: {fileID: 0}
+  tips: {fileID: 0}
+  feedBackOnInteact: 0
+  icon: {fileID: 0}
+--- !u!114 &8257970068512693431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3499826616217904415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f49d3fe94c6a69247a9fb17b0272fe23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  price: 40

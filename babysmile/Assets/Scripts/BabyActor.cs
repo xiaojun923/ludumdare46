@@ -64,10 +64,9 @@ public class BabyActor : MonoBehaviour
                 int taskType = Random.Range(1, taskNum + 1);
                 BabySmileManager.AddTask(taskType);
                 BabySmileManager.SetItemState(itemid, 2);
-
-                //表现层改状态为有需求，婴儿哭
-
+                
                 OnStartTask(taskType);
+                SceneControl.Instance.InteractItems[itemid].GetComponent<SceneItem>().Status = 2;
             }
         }
         else
