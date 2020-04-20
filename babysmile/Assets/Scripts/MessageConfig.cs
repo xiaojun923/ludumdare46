@@ -7,6 +7,8 @@ namespace LD46
         public static string InteractTap = "InteractTap";
         public static string InteractHold = "InteractHold";
         public static string CharacterMove = "CharacterMove";
+
+        public static string SuccessfulInteract = "SuccessfulInteract";
     }
     
     public class MessageDataHold
