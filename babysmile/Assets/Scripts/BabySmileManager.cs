@@ -8,6 +8,7 @@ public class BabySmileManager : MonoBehaviour
 
     void Start()
     {
+        // 操作物品后的状态转移
         itemEffect = new Dictionary<Tuple<int, int, int, int>, EffectData>();
         addEffect(new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
         addEffect(new List<int> { 0, 0, 2, 2, 0, 1, 3, 0, 0, 0, -5, 0 });
@@ -24,6 +25,7 @@ public class BabySmileManager : MonoBehaviour
         addEffect(new List<int> { 0, 0, 7, 2, 0, 3, 0, 0, 0, 0, 0, 0 });
         addEffect(new List<int> { 0, 0, 7, 3, 0, 1, 0, 15, 0, 0, 30, 0 });
 
+        // 物品性质定义
         typeInit = new Dictionary<int, Tuple<int, bool>>();
         addTypeInit(1, 1, false);
         addTypeInit(2, 1, false);
@@ -36,11 +38,13 @@ public class BabySmileManager : MonoBehaviour
         addTypeInit(9, 1, true);
         addTypeInit(10,1, true);
 
+        // 初始化角色
         roleList = new List<RoleData>();
         roleList.Add(new RoleData(0));
         roleList.Add(new RoleData(1));
         roleList.Add(new RoleData(2));
 
+        // 初始化物体
         itemList = new List<ItemData>();
         addItem(0);
         addItem(1);
@@ -51,6 +55,7 @@ public class BabySmileManager : MonoBehaviour
         addItem(4);
         addItem(10);
 
+        // 初始化桌子
         tableList = new List<TableData>();
         addTable(0);
         addTable(2);
@@ -59,10 +64,15 @@ public class BabySmileManager : MonoBehaviour
         addTable(1);
         addTable(1);
 
+
+        // 初始化物体摆放到桌子
         putItemOnTable(6, 1);
 
+        // 初始化任务列表
         taskList = new List<int>();
 
+        moneyVal = 10;
+        healthVal = 30;
     }
 
     void Update()
@@ -79,7 +89,7 @@ public class BabySmileManager : MonoBehaviour
     private static Dictionary<int, Tuple<int, bool>> typeInit = new Dictionary<int, Tuple<int, bool>>();
 
     // 实时更新信息
-    private static int moneyVal = 8;
+    private static int moneyVal = 0;
     private static int healthVal = 0;
     private static List<RoleData> roleList = new List<RoleData>();
     private static List<ItemData> itemList = new List<ItemData>();
@@ -222,21 +232,17 @@ public class BabySmileManager : MonoBehaviour
         }
         if (effect.taskType > 0)
         {
-            bool flag = false;
             for (int i = 0; i < taskList.Count; i++)
             {
                 if (taskList[i] == effect.taskType)
                 {
+                    //婴儿需求完成
                     taskList.RemoveAt(i);
                     role.score++;
-                    if(taskList.Count == 0)
-                    {
-                        flag = true;
-                    }
                     break;
                 }
             }
-            if(flag)
+            if (taskList.Count == 0)
             {
                 //婴儿止哭
                 itemList[1].crtStat = 1;

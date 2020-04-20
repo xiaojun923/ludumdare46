@@ -5,7 +5,7 @@ using UnityEngine;
 public class FlowerActor : MonoBehaviour
 {
     public float acumTime = 0;
-    public float waterTime = 100;
+    public float waterTime = 40;
     void Start()
     {
         

@@ -8,7 +8,7 @@ public class PCActor : MonoBehaviour
     public static float minTime = 5;
     public float acumTime = 0;
     public float waitTime = 0;
-    public float jobTh = 8;
+    public float jobTh = 5;
     public float waitTh = 10;
     
     void Start()

@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class BabyActor : MonoBehaviour
 {
+    public static int taskNum = 2;
     public static float maxTime = 10;
     public static float minTime = 5;
-    public static int taskNum = 2;
+    public static float hurtTh = 3;
+    public static float cryTh = 5;
+
     public float acumTime = 0;
     public float cryTime = 0;
-    public float hurtTh = 3.0f;
-    public float cryTh = 0.0f;
 
     void Start()
     {
-        
-    
-        
+
     }
 
     void Update()
