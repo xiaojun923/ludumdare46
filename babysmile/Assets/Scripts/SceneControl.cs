@@ -17,9 +17,11 @@ namespace LD46
         private Dictionary<int, string> SpawnItemPath = new Dictionary<int, string>
         {
             {3, "MilkBucket"},
+            {6, "BearToy"},
+            {9, "Flower"},
         };
 
-        private int _nextSpawnItemId = 8;
+        private int _nextSpawnItemId = 12;
 
         public Tuple<int, SceneItemType> UpdateInteractTarget(GameObject player)
         {
@@ -106,11 +108,16 @@ namespace LD46
             }
             else
             {
-                var commands = BabySmileManager.MissionComplete(role, target);
-                foreach (var (cmd, data) in commands)
+                var item = InteractItems[target].GetComponent<SceneItem>();
+                if (!item.HasTimerRunning)
                 {
-                    ProcessCmd(cmd, player, target, data);
+                    var commands = BabySmileManager.MissionComplete(role, target);
+                    foreach (var (cmd, data) in commands)
+                    {
+                        ProcessCmd(cmd, player, target, data);
+                    }
                 }
+                item.ClearTimer();
             }
         }
 
@@ -261,8 +268,14 @@ namespace LD46
 
         private void PlayerStartCast(GameObject player, int itemId, float duration)
         {
-            // 禁止角色移动并播动画
-            // 场景中对应SceneItem更新其状态UI
+            if (!InteractItems.ContainsKey(itemId))
+            {
+                Debug.LogError($"场景GameObject不存在：{itemId}");
+                return;
+            }
+            var itemGo = InteractItems[itemId];
+            var item = itemGo.GetComponent<SceneItem>();
+            item.SetTimer(duration);
         }
     }
 }

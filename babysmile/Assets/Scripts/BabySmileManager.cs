@@ -108,7 +108,7 @@ public class BabySmileManager : MonoBehaviour
         // 初始化任务列表
         taskList = new List<int>();
 
-        moneyVal = 10;
+        moneyVal = 100;
         healthVal = 30;
     }
 
@@ -274,6 +274,8 @@ public class BabySmileManager : MonoBehaviour
                 if (taskList[i] == effect.taskType)
                 {
                     taskList.RemoveAt(i);
+
+                    MessageSystem.SendMessage(MessageType.FinishTask,effect.taskType);
                     role.score++;
                     //婴儿满足对应的声音
                     playEffect(taskSound[effect.taskType]);
@@ -423,6 +425,11 @@ public class BabySmileManager : MonoBehaviour
         return healthVal;
     }
 
+
+    public static float GetHealthRate()
+    {
+        return 1.0f * healthVal / 30f ;
+    }
     public static int GetMoney()
     {
         return moneyVal;
