@@ -140,6 +140,8 @@ namespace LD46
                     PlayerStartCast(player, target, data);
                     break;
             }
+
+            MessageSystem.SendMessage(MessageType.SuccessfulInteract, target);
         }
 
         private void PlayerPickUpItem(GameObject player, int itemId)
@@ -170,6 +172,8 @@ namespace LD46
                 Debug.LogError("Prefab路径不存在，实例化失败");
                 return;
             }
+
+
             
             var t = player.transform.Find("ItemAnchor");
             
