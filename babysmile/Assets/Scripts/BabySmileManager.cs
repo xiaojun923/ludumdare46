@@ -46,7 +46,7 @@ public class BabySmileManager : MonoBehaviour
         addEffect(new List<int> { 10, 2, 9, 2, 1, 3, 0, 5, 0, 0, 0, 0 });
         addEffect(new List<int> { 10, 2, 9, 4, 1, 1, 0, 5, 0, 0, 30, 0 });
 
-        addEffect(new List<int> { 0, 0, 7, 2, 0, 1, 0, 15, 0, 0, 30, 0 });
+        addEffect(new List<int> { 0, 0, 7, 2, 0, 1, 0, 0, 0, 0, 30, 0 });
 
         addEffect(new List<int> { 10, 1, 11, 1, 2, 1, 0, 5, 0, 0, 0, 0 });
         addEffect(new List<int> { 12, 1, 11, 1, 2, 1, 0, 5, 0, 0, 0, 0 });
