@@ -6,42 +6,41 @@ public class PCActor : MonoBehaviour
 {
     public static float maxTime = 10;
     public static float minTime = 5;
-    private int itemid;
-    //关机状态积累时间
-    private float acumTime = 0;
-    //邮件状态积累时间
-    private float waitTime = 0;
-    private float jobTh = 0.0f;
-    private float waitTh = 3.0f;
+    public float acumTime = 0;
+    public float waitTime = 0;
+    public float jobTh = 0.0f;
+    public float waitTh = 3.0f;
     
-    // Start is called before the first frame update
     void Start()
     {
 
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //电脑状态 关机1有邮件2开机3
+        int itemid = GetComponent<SceneItem>().id;
         int pcStat = BabySmileManager.GetItemState(itemid);
-        if(pcStat==1)
+        if(pcStat == 1)
         {
+            //随机产生邮件
             acumTime += Time.deltaTime;
             if(acumTime > jobTh)
             {
                 acumTime = 0;
                 jobTh = Random.Range(minTime, maxTime);
                 BabySmileManager.SetItemState(itemid, 2);
+                //表现层改状态为邮件
             }
         }
         else if(pcStat == 2)
         {
+            //长时间没人理会变成关机
             waitTime += Time.deltaTime;
             if(waitTime > waitTh)
             {
                 waitTime = 0;
                 BabySmileManager.SetItemState(itemid, 1);
+                //表现层改状态为关机
             }
         }
     }
