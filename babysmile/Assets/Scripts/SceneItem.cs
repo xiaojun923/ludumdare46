@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using LD46;
 using UnityEngine;
 
@@ -22,7 +20,7 @@ public class SceneItem : MonoBehaviour
         set { _status = value; UpdateStatus(); }
     }
 
-    public List<GameObject> activeStatus;
+    public List<GameObject> activeStatusMap;
 
     private bool _showHint;
     private bool _showInteract;
@@ -47,9 +45,10 @@ public class SceneItem : MonoBehaviour
         }
     }
 
-    public void Interact()
+    public void Start()
     {
-        Debug.Log($"Interacted: {name}");
+        _status = 1;
+        UpdateStatus();
     }
 
     public void SetInteract(bool interact)
@@ -61,25 +60,18 @@ public class SceneItem : MonoBehaviour
     public void ShowHint(bool show)
     {
         _showHint = show;
-        if (show)
-        {
-            transform.localScale *= 1.1f;
-        }
-        else
-        {
-            transform.localScale /= 1.1f;
-        }
+        transform.localScale = show ? Vector3.one * 1.05f : Vector3.one * 1.0f;
     }
 
     public void UpdateStatus()
     {
-        if (activeStatus.Count > 0)
+        if (activeStatusMap.Count > 0)
         {
-            foreach (var go in activeStatus)
+            foreach (var go in activeStatusMap)
             {
                 go.SetActive(false);
             }
-            activeStatus[_status].SetActive(true);
+            activeStatusMap[_status - 1].SetActive(true);
         }
     }
 }

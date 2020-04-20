@@ -74,7 +74,7 @@ namespace LD46
 
             foreach (var (cmd, data) in commands)
             {
-                if (cmd != DataCommand.StartCast)
+                if (cmd != (int) DataCommand.StartCast)
                 {
                     ProcessCmd(cmd, player, target, data);
                 }
