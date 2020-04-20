@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DG.Tweening;
 using LD46;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum SceneItemType
 {
@@ -29,6 +31,11 @@ public class SceneItem : MonoBehaviour
     public UITips tips;
     public bool feedBackOnInteact = false;
 
+    private float _startTime;
+    private float _duration;
+
+    public Image icon;
+
     public void OnEnable()
     {
         MessageSystem.AddListener(MessageType.SuccessfulInteract, OnSuccessfulInteract);
@@ -40,6 +47,28 @@ public class SceneItem : MonoBehaviour
         MessageSystem.RemoveListener(MessageType.SuccessfulInteract, OnSuccessfulInteract);
 
     }
+
+
+    public void Update()
+    {
+        if (_duration > 0f)
+        {
+            float deltaTime = Time.realtimeSinceStartup - _startTime;
+            if (deltaTime <= _duration)
+            {
+                float ratio = deltaTime / _duration;
+                if (icon != null)
+                {
+                    icon.fillAmount = ratio;
+                }
+            }
+            else
+            {
+                _duration = 0f;
+            }
+        }
+    }
+
     public void OnSuccessfulInteract(object msg)
     {
         int msgID = (int) msg;
@@ -120,4 +149,21 @@ public class SceneItem : MonoBehaviour
             }
         }
     }
+
+    public void SetTimer(float duration)
+    {
+        _duration = duration;
+        _startTime = Time.realtimeSinceStartup;
+    }
+
+    public void ClearTimer()
+    {
+        _duration = 0f;
+        if (icon != null)
+        {
+            icon.fillAmount = 0f;
+        }
+    }
+
+    public bool HasTimerRunning => _duration > 0f;
 }

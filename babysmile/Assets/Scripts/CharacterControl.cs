@@ -1,4 +1,5 @@
 ﻿using System;
+using Invector.CharacterController;
 using LD46;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -70,10 +71,11 @@ public class CharacterControl : MonoBehaviour
     private void OnInteractHold(object msg)
     {
         var data = msg as MessageDataHold;
-         if (data == null || data.Player.name != name)
+        if (data == null || data.Player.name != name)
         {
             return;
         }
+        GetComponent<ThirdPersonController>().stopMove = data.Holding;
         SceneControl.Instance.PlayerInteractHold(gameObject, _interactTarget, data.Holding);
     }
 }

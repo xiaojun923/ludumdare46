@@ -3250,7 +3250,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 0.397
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 2
   m_UseSpriteMesh: 0
@@ -12448,6 +12448,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Baby
       objectReference: {fileID: 0}
+    - target: {fileID: 3337238588459121263, guid: 571be6046b373674ba866e6cc504c865,
+        type: 3}
+      propertyPath: icon
+      value: 
+      objectReference: {fileID: 364007136}
     - target: {fileID: 6837649616317564930, guid: 571be6046b373674ba866e6cc504c865,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -28148,11 +28153,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4683136921534433076, guid: ef489c2cc9dd67542a1d0460a7eababf,
         type: 3}
-      propertyPath: m_Constraints
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 4683136921534433076, guid: ef489c2cc9dd67542a1d0460a7eababf,
-        type: 3}
       propertyPath: m_AngularDrag
       value: 10
       objectReference: {fileID: 0}
@@ -28451,6 +28451,11 @@ PrefabInstance:
       propertyPath: feedBackOnInteact
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4270563078037715048, guid: bdfefacca0cdb2645a6ecf089933c972,
+        type: 3}
+      propertyPath: icon
+      value: 
+      objectReference: {fileID: 350913141}
     - target: {fileID: 4554126877426369348, guid: bdfefacca0cdb2645a6ecf089933c972,
         type: 3}
       propertyPath: m_Name
