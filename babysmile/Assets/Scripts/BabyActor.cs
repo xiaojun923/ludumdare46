@@ -23,6 +23,21 @@ public class BabyActor : MonoBehaviour
     public GameObject ToyIcon;
     public GameObject MilkIcon;
 
+    public UITips FirstTutorial;
+    public UITips SecondTutorial;
+
+    public AudioSource babyAudioSource;
+    public AudioClip babyCry;
+
+    public enum State
+    {
+        FirstTask,
+        SecondTask,
+        RandomTask,
+    }
+
+    public State m_state;
+
     public void OnEnable()
     {
         MessageSystem.AddListener(MessageType.FinishTask,OnFinishTask);
@@ -52,16 +67,34 @@ public class BabyActor : MonoBehaviour
         {
             //平静
             acumTime += Time.deltaTime;
-            if(acumTime > cryTh)
+            if (acumTime > cryTh)
             {
                 //提需求，开始哭
                 acumTime = 0;
                 cryTh = Random.Range(minTime, maxTime);
 
                 int taskType = Random.Range(1, taskNum + 1);
+
+                if (m_state == State.FirstTask)
+                {
+                    taskType = 2;
+                    m_state = State.SecondTask;
+                    FirstTutorial.ShowFor(10f);
+                }
+                else if (m_state == State.SecondTask)
+                {
+                    taskType = 1;
+                    m_state = State.RandomTask;
+                    SecondTutorial.ShowFor(10f);
+                }
+                else if ( m_state == State.RandomTask )
+                {
+                    // do nothing 
+                }
+
                 BabySmileManager.AddTask(taskType);
                 BabySmileManager.SetItemState(itemid, 2);
-                
+
                 OnStartTask(taskType);
                 SceneControl.Instance.InteractItems[itemid].GetComponent<SceneItem>().Status = 2;
             }
@@ -70,7 +103,7 @@ public class BabyActor : MonoBehaviour
         {
             //婴儿在哭
             cryTime += Time.deltaTime;
-            if(cryTime > hurtTh)
+            if (cryTime > hurtTh)
             {
                 cryTime = 0;
                 BabySmileManager.ChangeHealth(-1);
@@ -93,5 +126,7 @@ public class BabyActor : MonoBehaviour
             ToyIcon.SetActive(true);
             ToyUI.OnPlay();
         }
+        if (babyAudioSource != null && babyCry != null )
+            babyAudioSource.PlayOneShot(babyCry);
     }
 }
