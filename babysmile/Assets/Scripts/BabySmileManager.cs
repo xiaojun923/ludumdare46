@@ -79,7 +79,7 @@ public class BabySmileManager : MonoBehaviour
     private static Dictionary<int, Tuple<int, bool>> typeInit = new Dictionary<int, Tuple<int, bool>>();
 
     // 实时更新信息
-    private static int moneyVal = 0;
+    private static int moneyVal = 8;
     private static int healthVal = 0;
     private static List<RoleData> roleList = new List<RoleData>();
     private static List<ItemData> itemList = new List<ItemData>();
@@ -196,7 +196,8 @@ public class BabySmileManager : MonoBehaviour
                 orderSet.Add(new Tuple<int, int>(4, src.itemID));
             }
             else
-            { 
+            {
+                role.handItemID = 0;
                 orderSet.Add(new Tuple<int, int>(3, src.itemID));
             }
         }
@@ -209,6 +210,11 @@ public class BabySmileManager : MonoBehaviour
             }
             else
             {
+                int getid = GetItemTableID(tar.itemID);
+                if (getid > 0)
+                {
+                    tableList[getid].holdItemID = 0;
+                }
                 orderSet.Add(new Tuple<int, int>(3, tar.itemID));
             }
         }
@@ -224,6 +230,7 @@ public class BabySmileManager : MonoBehaviour
                     {
                         flag = true;
                     }
+                    break;
                 }
             }
             if(flag)
@@ -253,6 +260,11 @@ public class BabySmileManager : MonoBehaviour
         {
             //拾取目标物体
             role.handItemID = tar.itemID;
+            int getid = GetItemTableID(tar.itemID);
+            if (getid > 0)
+            {
+                tableList[getid].holdItemID = 0;
+            }
             resultSet.Add(new Tuple<int, int>(1, 0));
             return resultSet;
         }
@@ -273,7 +285,7 @@ public class BabySmileManager : MonoBehaviour
                 else
                 {
                     //操作目标物体
-                    resultSet.AddRange(runEffect(effect, role, null, tar));
+                    resultSet.AddRange(runEffect(effect, role, src, tar));
                 }
             }
         }
@@ -352,9 +364,20 @@ public class BabySmileManager : MonoBehaviour
     {
         int src_id = roleList[roleid].handItemID;
         int tar_id = itemid;
+
+        if (src_id > 0 && tar_id == 0)
+        {
+            int handId = roleList[roleid].handItemID;
+            roleList[roleid].handItemID = 0;
+            return new List<Tuple<int, int>>
+            {
+                new Tuple<int, int>(6, handId)
+            };
+        }
+        
         if(src_id > 0)
         {
-            return itemOrder(false, roleList[roleid], itemList[src_id],itemList[tar_id]);
+            return itemOrder(false, roleList[roleid], itemList[tar_id],itemList[src_id]);
         }
         else
         {
@@ -368,7 +391,7 @@ public class BabySmileManager : MonoBehaviour
         int tar_id = itemid;
         if (src_id > 0)
         {
-            return itemOrder(true, roleList[roleid], itemList[src_id], itemList[tar_id]);
+            return itemOrder(true, roleList[roleid], itemList[tar_id], itemList[src_id]);
         }
         else
         {
@@ -383,7 +406,7 @@ public class BabySmileManager : MonoBehaviour
         {
             tableList[tableid].holdItemID = roleList[roleid].handItemID;
             roleList[roleid].handItemID = 0;
-            finalSet.Add(new Tuple<int, int>(5, 0));
+            finalSet.Add(new Tuple<int, int>(5, tableList[tableid].holdItemID));
         }
         return finalSet;
     }
