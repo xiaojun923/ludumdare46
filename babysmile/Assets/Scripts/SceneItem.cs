@@ -151,7 +151,7 @@ public class SceneItem : MonoBehaviour
                 }
             }
 
-            if (activeStatusMap[_status - 1] != null)
+            if (_status > 0 && activeStatusMap[_status - 1] != null)
             {
                 activeStatusMap[_status - 1].SetActive(true);
             }
