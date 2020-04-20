@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using LD46;
 using UnityEngine;
 
 public class FlowerActor : MonoBehaviour
@@ -34,6 +35,7 @@ public class FlowerActor : MonoBehaviour
                 //BabySmileManager.SetPickable(itemid, true);
                 BabySmileManager.SetItemState(itemid, flowerStat + 1);
                 //表现层改状态为枯苗/枯花
+                SceneControl.Instance.InteractItems[itemid].GetComponent<SceneItem>().Status = flowerStat + 1;
             }
         }
     }
