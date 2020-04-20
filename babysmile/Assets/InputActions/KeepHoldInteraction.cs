@@ -10,6 +10,7 @@ using UnityEngine.InputSystem.Editor;
 
 namespace LD46
 {
+#if UNITY_EDITOR
     [InitializeOnLoad]
     public class CustomInteractionInitializeTempClass {
         static CustomInteractionInitializeTempClass()
@@ -17,6 +18,7 @@ namespace LD46
             InputSystem.RegisterInteraction<KeepHoldInteraction>();
         }
     }
+#endif
     
     [Preserve]
     [DisplayName("KeepHold")]
