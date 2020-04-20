@@ -79,13 +79,13 @@ public class BabyActor : MonoBehaviour
                 {
                     taskType = 2;
                     m_state = State.SecondTask;
-                    FirstTutorial.ShowFor(10f);
+                    FirstTutorial.ShowFor(8f);
                 }
                 else if (m_state == State.SecondTask)
                 {
                     taskType = 1;
                     m_state = State.RandomTask;
-                    SecondTutorial.ShowFor(10f);
+                    SecondTutorial.ShowFor(8f);
                 }
                 else if ( m_state == State.RandomTask )
                 {

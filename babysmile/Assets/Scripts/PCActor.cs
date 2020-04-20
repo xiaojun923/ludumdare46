@@ -14,7 +14,29 @@ public class PCActor : MonoBehaviour
 
     public UITips WorkTips;
 
-    
+
+    public void OnEnable()
+    {
+        MessageSystem.AddListener(MessageType.SuccessfulInteract, OnSuccessfulInteract);
+    }
+
+    public void OnDisable()
+    {
+        MessageSystem.RemoveListener(MessageType.SuccessfulInteract, OnSuccessfulInteract);
+
+    }
+
+    public void OnSuccessfulInteract(object msg)
+    {
+        int id = (int) msg;
+
+        if (id == 5)
+        {
+            Debug.Log("End Job");
+            OnEndJob();
+        }
+    }
+
     void Start()
     {
         //游戏开始就要有个工作出现
@@ -33,14 +55,15 @@ public class PCActor : MonoBehaviour
         {
             //随机产生邮件
             acumTime += Time.deltaTime;
-            if(acumTime > jobTh)
+            waitTime = 0;
+            if (acumTime > jobTh)
             {
                 acumTime = 0;
                 jobTh = Random.Range(minTime, maxTime);
                 BabySmileManager.SetItemState(itemid, 2);
                 //表现层改状态为邮件
-                OnShowJob();
                 SceneControl.Instance.InteractItems[itemid].GetComponent<SceneItem>().Status = 2;
+                OnEndJob();
             }
         }
         else if(pcStat == 2)
@@ -53,8 +76,8 @@ public class PCActor : MonoBehaviour
                 BabySmileManager.SetItemState(itemid, 1);
                 //表现层改状态为关机
 
-                OnEndJob();
                 SceneControl.Instance.InteractItems[itemid].GetComponent<SceneItem>().Status = 1;
+                OnShowJob();
             }
         }
     }
