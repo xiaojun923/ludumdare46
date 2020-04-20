@@ -82,6 +82,9 @@ MonoBehaviour:
   activeStatusMap:
   - {fileID: 6951754494510194443}
   - {fileID: 8226883118500852516}
+  hintObj: {fileID: 0}
+  tips: {fileID: 0}
+  feedBackOnInteact: 0
 --- !u!65 &3846027654268149031
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -153,7 +156,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 650131748572400400, guid: 8f70282d1a01e834a9d73c91c432554e, type: 3}
+  - {fileID: 2100000, guid: c544cf22465ae934ca35918e2d43eb14, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -232,9 +235,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -6851552050799271356, guid: eb73357d47be9264da522e2e99c10a0e, type: 3}
-  - {fileID: 4728038666554625101, guid: eb73357d47be9264da522e2e99c10a0e, type: 3}
-  - {fileID: 774435339402967453, guid: eb73357d47be9264da522e2e99c10a0e, type: 3}
+  - {fileID: 2100000, guid: f8f9a23f21910df47beaed13bc59c71a, type: 2}
+  - {fileID: 2100000, guid: 8e9d7e0f6c6d8a541b4e511babe1c9d5, type: 2}
+  - {fileID: 2100000, guid: ea6ee0e6ecef58e47a08770fe9ce5cf6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -253,6 +253,8 @@ public class BabySmileManager : MonoBehaviour
                 {
                     //婴儿需求完成
                     taskList.RemoveAt(i);
+
+                    MessageSystem.SendMessage(MessageType.FinishTask,effect.taskType);
                     role.score++;
                     break;
                 }
@@ -386,6 +388,11 @@ public class BabySmileManager : MonoBehaviour
         return healthVal;
     }
 
+
+    public static float GetHealthRate()
+    {
+        return 1.0f * healthVal / 30f ;
+    }
     public static int GetMoney()
     {
         return moneyVal;

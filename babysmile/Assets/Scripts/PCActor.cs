@@ -10,6 +10,9 @@ public class PCActor : MonoBehaviour
     public float waitTime = 0;
     public float jobTh = 5;
     public float waitTh = 10;
+
+    public UITips WorkTips;
+
     
     void Start()
     {
@@ -34,6 +37,8 @@ public class PCActor : MonoBehaviour
                 jobTh = Random.Range(minTime, maxTime);
                 BabySmileManager.SetItemState(itemid, 2);
                 //表现层改状态为邮件
+
+                OnShowJob();
             }
         }
         else if(pcStat == 2)
@@ -45,7 +50,19 @@ public class PCActor : MonoBehaviour
                 waitTime = 0;
                 BabySmileManager.SetItemState(itemid, 1);
                 //表现层改状态为关机
+
+                OnEndJob();
             }
         }
+    }
+
+    public void OnShowJob()
+    {
+        WorkTips.OnPlay();
+    }
+
+    public void OnEndJob()
+    {
+        WorkTips.OnStop();
     }
 }

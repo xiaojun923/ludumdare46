@@ -9,6 +9,7 @@ namespace LD46
         public static string CharacterMove = "CharacterMove";
 
         public static string SuccessfulInteract = "SuccessfulInteract";
+        public static string FinishTask = "FinishTask";
     }
     
     public class MessageDataHold
