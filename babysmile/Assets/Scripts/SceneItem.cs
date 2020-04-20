@@ -115,6 +115,20 @@ public class SceneItem : MonoBehaviour
     {
         _showInteract = interact;
         Debug.Log($"GameObject [{name}]], Interact=[{interact}]");
+        
+        if (hintObj != null)
+        {
+            hintObj.SetActive(interact);
+        }
+        else
+        {
+            // transform.localScale = interact ? Vector3.one * 1.05f : Vector3.one * 1.0f;
+        }
+
+        if (tips != null)
+        {
+            tips.ShowTips(interact);
+        }
     }
 
     public void ShowHint(bool show)
@@ -122,19 +136,7 @@ public class SceneItem : MonoBehaviour
         Debug.Log($"Show Hint [{name}]], Interact=[{show}]");
         _showHint = show;
 
-        if (hintObj != null)
-        {
-            hintObj.SetActive(show);
-        }
-        else
-        {
-            transform.localScale = show ? Vector3.one * 1.05f : Vector3.one * 1.0f;
-        }
 
-        if (tips != null)
-        {
-            tips.ShowTips(show);
-        }
     }
 
 
