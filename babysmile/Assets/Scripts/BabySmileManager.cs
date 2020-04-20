@@ -5,9 +5,32 @@ using UnityEngine;
 
 public class BabySmileManager : MonoBehaviour
 {
+    public List<AudioClip> initSound;
+    private static List<AudioClip> staticSound;
+    private static AudioSource audioSource;
+    private static Dictionary<int, int> taskSound = new Dictionary<int, int>();
+
+    private static void playEffect(int clipid)
+    {
+        audioSource.PlayOneShot(staticSound[clipid]);
+    }
 
     void Start()
     {
+        staticSound = new List<AudioClip>();
+        foreach (AudioClip ad in initSound)
+        {
+            staticSound.Add(ad);
+        }
+        audioSource = this.gameObject.AddComponent<AudioSource>();
+        audioSource.loop = true;
+        audioSource.volume = 1.0f;
+        audioSource.clip = initSound[0];
+        taskSound = new Dictionary<int, int>();
+        taskSound.Add(1, 1);
+        taskSound.Add(2, 2);
+        audioSource.Play();
+
         // 操作物品后的状态转移
         itemEffect = new Dictionary<Tuple<int, int, int, int>, EffectData>();
         addEffect(new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
@@ -250,15 +273,15 @@ public class BabySmileManager : MonoBehaviour
             {
                 if (taskList[i] == effect.taskType)
                 {
-                    //婴儿需求完成
                     taskList.RemoveAt(i);
                     role.score++;
+                    //婴儿满足对应的声音
+                    playEffect(taskSound[effect.taskType]);
                     break;
                 }
             }
             if (taskList.Count == 0)
             {
-                //婴儿止哭
                 itemList[1].crtStat = 1;
                 orderSet.Add(new Tuple<int, int>(4, 1));
             }
@@ -269,11 +292,24 @@ public class BabySmileManager : MonoBehaviour
             itemList.Add(new ItemData(new_id, effect.newType));
             role.handItemID = new_id;
             orderSet.Add(new Tuple<int, int>(2, effect.newType));
+            //拾取到新东西声音
+            playEffect(3);
+        }    
+        moneyVal += effect.moneyAdd;
+        if (effect.moneyAdd > 0)
+        {
+            role.score++;
+            //金钱增加声音
+            playEffect(6);
         }
         healthVal += effect.healthAdd;
-        if (effect.healthAdd > 0) role.score++;
-        moneyVal += effect.moneyAdd;
-        if (effect.moneyAdd > 0) role.score++;
+        if (effect.healthAdd > 0)
+        {
+            role.score++;
+            //健康增加声音
+            playEffect(7);
+        }
+
         return orderSet;
     }
 
@@ -283,7 +319,7 @@ public class BabySmileManager : MonoBehaviour
 
         if (tar.pickFlag && src == null)
         {
-            //拾取目标物体
+            
             role.handItemID = tar.itemID;
             int getid = GetItemTableID(tar.itemID);
             if (getid > 0)
@@ -291,6 +327,8 @@ public class BabySmileManager : MonoBehaviour
                 tableList[getid].holdItemID = 0;
             }
             resultSet.Add(new Tuple<int, int>(1, 0));
+            //拾取目标物体声音
+            playEffect(3);
             return resultSet;
         }
         int t1 = (src == null) ? 0 : src.typeID;
@@ -304,13 +342,13 @@ public class BabySmileManager : MonoBehaviour
             {
                 if (effect.costTime > 0 && !finish)
                 {
-                    //开启目标物体时间条
                     resultSet.Add(new Tuple<int, int>(7, effect.costTime));
                 }
                 else
                 {
-                    //操作目标物体
                     resultSet.AddRange(runEffect(effect, role, src, tar));
+                    //操作成功
+                    playEffect(5);
                 }
             }
         }
@@ -442,6 +480,7 @@ public class BabySmileManager : MonoBehaviour
             tableList[tableid].holdItemID = roleList[roleid].handItemID;
             roleList[roleid].handItemID = 0;
             finalSet.Add(new Tuple<int, int>(5, tableList[tableid].holdItemID));
+            playEffect(4);
         }
         return finalSet;
     }
