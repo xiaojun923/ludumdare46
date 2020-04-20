@@ -24,6 +24,15 @@ public class BabySmileManager : MonoBehaviour
         addEffect(new List<int> { 0, 0, 9, 5, 0, 1, 0, 6, 0, 0, 30, 0 });
         addEffect(new List<int> { 0, 0, 7, 2, 0, 3, 0, 0, 0, 0, 0, 0 });
         addEffect(new List<int> { 0, 0, 7, 3, 0, 1, 0, 15, 0, 0, 30, 0 });
+        addEffect(new List<int> { 10, 1, 11, 1, 2, 1, 0, 5, 0, 0, 0, 0 });
+        addEffect(new List<int> { 12, 1, 11, 1, 2, 1, 0, 5, 0, 0, 0, 0 });
+        addEffect(new List<int> { 12, 2, 14, 1, 1, 2, 0, 5, 0, 0, 0, 0 });
+        addEffect(new List<int> { 13, 1, 14, 2, 2, 0, 0, 5, 0, 0, 0, 0 });
+        addEffect(new List<int> { 13, 2, 11, 1, 1, 1, 0, 5, 0, 0, 0, 0 });
+        addEffect(new List<int> { 0, 0, 15, 2, 0, 1, 16, 0, 0, 0, -5, 0 });
+        addEffect(new List<int> { 16, 1, 1, 1, 0, 1, 0, 10, 0, 0, 0, 5 });
+        addEffect(new List<int> { 16, 1, 1, 2, 0, 2, 0, 10, 0, 3, 0, 2 });
+
 
         // 物品性质定义
         typeInit = new Dictionary<int, Tuple<int, bool>>();
@@ -36,7 +45,13 @@ public class BabySmileManager : MonoBehaviour
         addTypeInit(7, 1, false);
         addTypeInit(8, 1, false);
         addTypeInit(9, 1, true);
-        addTypeInit(10,1, true);
+        addTypeInit(10, 1, true);
+        addTypeInit(11, 1, false);
+        addTypeInit(12, 1, true);
+        addTypeInit(13, 1, true);
+        addTypeInit(14, 1, false);
+        addTypeInit(15, 1, false);
+        addTypeInit(16, 1, true);
 
         // 初始化角色
         roleList = new List<RoleData>();
@@ -54,16 +69,16 @@ public class BabySmileManager : MonoBehaviour
         addItem(7);
         addItem(4);
         addItem(10);
+        addItem(11);
+        addItem(12);
+        addItem(13);
+        addItem(15);
 
         // 初始化桌子
         tableList = new List<TableData>();
         addTable(0);
         addTable(2);
         addTable(3);
-        addTable(1);
-        addTable(1);
-        addTable(1);
-
 
         // 初始化物体摆放到桌子
         putItemOnTable(6, 1);
