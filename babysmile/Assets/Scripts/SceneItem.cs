@@ -57,14 +57,22 @@ public class SceneItem : MonoBehaviour
             if (deltaTime <= _duration)
             {
                 float ratio = deltaTime / _duration;
+
                 if (icon != null)
                 {
                     icon.fillAmount = ratio;
+
+                    Debug.Log("Fille " +ratio +name);
                 }
             }
             else
             {
                 _duration = 0f;
+
+                if (icon != null)
+                {
+                    icon.fillAmount = 0;
+                }
             }
         }
     }

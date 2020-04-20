@@ -20,6 +20,8 @@ public class BabyActor : MonoBehaviour
     public UITips HealthUI;
     public UITips ToyUI;
     public UITips MilkUI;
+    public GameObject ToyIcon;
+    public GameObject MilkIcon;
 
     public void OnEnable()
     {
@@ -38,13 +40,8 @@ public class BabyActor : MonoBehaviour
 
         HealthUI.ShowFor(ShowDurOnFinishTask);
 
-        if (taskType == 1)
-        {
-            MilkUI.OnStop();
-        }else if (taskType == 2)
-        {
-            ToyUI.OnStop();
-        }
+        MilkUI.OnStop();
+        ToyUI.OnStop();
     }
 
     void Update()
@@ -86,10 +83,14 @@ public class BabyActor : MonoBehaviour
     {
         if (taskType == 1)
         {
+            MilkIcon.SetActive(true);
+            ToyIcon.SetActive(false);
             MilkUI.OnPlay();
         }
         else if (taskType == 2)
         {
+            MilkIcon.SetActive(false);
+            ToyIcon.SetActive(true);
             ToyUI.OnPlay();
         }
     }
