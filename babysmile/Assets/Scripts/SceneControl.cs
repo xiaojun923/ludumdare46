@@ -13,6 +13,13 @@ namespace LD46
 
         public Dictionary<int, GameObject> InteractItems = new Dictionary<int, GameObject>();
         public Dictionary<int, GameObject> InteractTables = new Dictionary<int, GameObject>();
+        
+        private Dictionary<int, string> SpawnItemPath = new Dictionary<int, string>
+        {
+            {3, "MilkBucket"},
+        };
+
+        private int _nextSpawnItemId = 8;
 
         public Tuple<int, SceneItemType> UpdateInteractTarget(GameObject player)
         {
@@ -127,7 +134,7 @@ namespace LD46
                     PlayerPutItemOnTable(player, data, target);
                     break;
                 case DataCommand.PutOnFloor:
-                    PlayerPutItemOnFloor(player, target);
+                    PlayerPutItemOnFloor(player, data);
                     break;
                 case DataCommand.StartCast:
                     PlayerStartCast(player, target, data);
@@ -156,7 +163,8 @@ namespace LD46
 
         private void PlayerHandSpawnItem(GameObject player, int configId)
         {
-            var obj = AssetDatabase.LoadAssetAtPath<GameObject>($"Assets/Prefab/Interactable/RuntimeSpawn/FlowerSeed.prefab");
+            string prefabName = SpawnItemPath[configId];
+            var obj = AssetDatabase.LoadAssetAtPath<GameObject>($"Assets/Prefab/Interactable/RuntimeSpawn/{prefabName}.prefab");
             if (obj == null)
             {
                 Debug.LogError("Prefab路径不存在，实例化失败");
@@ -171,12 +179,10 @@ namespace LD46
             itemGo.transform.localPosition = Vector3.zero;
             itemGo.transform.localRotation = Quaternion.identity;
             itemGo.GetComponent<SceneItem>().ShowHint(false);
-            itemGo.GetComponent<SceneItem>().id = InteractItems.Count;
-            
-            int index = InteractItems.Count + 1;
-            InteractItems.Add(index, itemGo);
-            
-            player.GetComponent<CharacterControl>().InHandId = index;
+            itemGo.GetComponent<SceneItem>().id = _nextSpawnItemId;
+            player.GetComponent<CharacterControl>().InHandId = _nextSpawnItemId;
+
+            _nextSpawnItemId++;
         }
 
         private void SceneDestroyItem(int itemId)

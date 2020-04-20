@@ -16,7 +16,7 @@ public class SceneItem : MonoBehaviour
     private int _status;
     public int Status
     {
-        get { return _status; }
+        get => _status;
         set { _status = value; UpdateStatus(); }
     }
 
@@ -25,7 +25,7 @@ public class SceneItem : MonoBehaviour
     private bool _showHint;
     private bool _showInteract;
 
-    public void Awake()
+    public void Start()
     {
         if (id > 0)
         {
@@ -43,10 +43,7 @@ public class SceneItem : MonoBehaviour
         {
             Debug.LogError($"未指定场景物体ID：{name}");
         }
-    }
-
-    public void Start()
-    {
+        
         _status = 1;
         UpdateStatus();
     }
@@ -69,9 +66,16 @@ public class SceneItem : MonoBehaviour
         {
             foreach (var go in activeStatusMap)
             {
-                go.SetActive(false);
+                if (go != null)
+                {
+                    go.SetActive(false);
+                }
             }
-            activeStatusMap[_status - 1].SetActive(true);
+
+            if (activeStatusMap[_status - 1] != null)
+            {
+                activeStatusMap[_status - 1].SetActive(true);
+            }
         }
     }
 }

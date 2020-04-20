@@ -63,7 +63,7 @@ public class CharacterControl : MonoBehaviour
         }
         else if (_inHandId > 0)
         {
-            SceneControl.Instance.PlayerInteractTap(gameObject, _inHandId, _interactType);
+            SceneControl.Instance.PlayerInteractTap(gameObject, 0, _interactType);
         }
     }
 
