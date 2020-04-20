@@ -42,10 +42,12 @@ public class BabySmileManager : MonoBehaviour
         addEffect(new List<int> { 6, 1, 1, 1, 0, 1, 0, 10, 0, 0, 0, 10 });
         addEffect(new List<int> { 6, 1, 1, 2, 0, 2, 0, 10, 0, 2, 0, 5 });
         addEffect(new List<int> { 0, 0, 8, 2, 0, 1, 9, 0, 0, 0, -25, 0 });
+
         addEffect(new List<int> { 10, 2, 9, 2, 1, 3, 0, 5, 0, 0, 0, 0 });
         addEffect(new List<int> { 10, 2, 9, 4, 1, 1, 0, 5, 0, 0, 30, 0 });
-        addEffect(new List<int> { 0, 0, 7, 2, 0, 3, 0, 0, 0, 0, 0, 0 });
-        addEffect(new List<int> { 0, 0, 7, 3, 0, 1, 0, 15, 0, 0, 30, 0 });
+
+        addEffect(new List<int> { 0, 0, 7, 2, 0, 1, 0, 15, 0, 0, 30, 0 });
+
         addEffect(new List<int> { 10, 1, 11, 1, 2, 1, 0, 5, 0, 0, 0, 0 });
         addEffect(new List<int> { 12, 1, 11, 1, 2, 1, 0, 5, 0, 0, 0, 0 });
         addEffect(new List<int> { 12, 2, 14, 1, 1, 2, 0, 5, 0, 0, 0, 0 });
