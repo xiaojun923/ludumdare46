@@ -298,6 +298,11 @@ public class BabySmileManager : MonoBehaviour
         return resultSet;
     }
 
+    public static List<int> GetBabyTask()
+    {
+        return taskList;
+    }
+
     public static int GetRoleScore(int roleid)
     {
         return roleList[roleid].score;
