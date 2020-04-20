@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using LD46;
 using UnityEngine;
 
 public class BabyActor : MonoBehaviour
@@ -34,6 +35,7 @@ public class BabyActor : MonoBehaviour
                 BabySmileManager.AddTask(Random.Range(1, taskNum + 1));
                 BabySmileManager.SetItemState(itemid, 2);
                 //表现层改状态为有需求，婴儿哭
+                SceneControl.Instance.InteractItems[itemid].GetComponent<SceneItem>().Status = 2;
             }
         }
         else

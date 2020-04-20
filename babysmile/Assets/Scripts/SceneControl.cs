@@ -17,6 +17,7 @@ namespace LD46
         private Dictionary<int, string> SpawnItemPath = new Dictionary<int, string>
         {
             {3, "MilkBucket"},
+            {6, "BearToy"},
         };
 
         private int _nextSpawnItemId = 12;

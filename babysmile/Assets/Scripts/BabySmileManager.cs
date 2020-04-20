@@ -85,7 +85,7 @@ public class BabySmileManager : MonoBehaviour
         // 初始化任务列表
         taskList = new List<int>();
 
-        moneyVal = 10;
+        moneyVal = 100;
         healthVal = 30;
     }
 
