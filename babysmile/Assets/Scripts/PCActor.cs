@@ -8,12 +8,16 @@ public class PCActor : MonoBehaviour
     public static float minTime = 5;
     public float acumTime = 0;
     public float waitTime = 0;
-    public float jobTh = 0.0f;
-    public float waitTh = 3.0f;
+    public float jobTh = 8;
+    public float waitTh = 10;
     
     void Start()
     {
-
+        //游戏开始就要有个工作出现
+        int itemid = GetComponent<SceneItem>().id;
+        jobTh = Random.Range(minTime, maxTime);
+        BabySmileManager.SetItemState(itemid, 2);
+        //表现层改状态为邮件
     }
 
     void Update()
