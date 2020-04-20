@@ -18,6 +18,7 @@ namespace LD46
         {
             {3, "MilkBucket"},
             {6, "BearToy"},
+            {9, "Flower"},
         };
 
         private int _nextSpawnItemId = 12;
