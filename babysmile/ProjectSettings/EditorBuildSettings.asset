@@ -6,21 +6,27 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Openning.unity
+    guid: 597b09733ccc098498cee31603224c02
+  - enabled: 1
+    path: Assets/Scenes/TestWall.unity
+    guid: ddadaebfa1a6da3488c91a5ad072e911
+  - enabled: 0
     path: Assets/Invector-3rdPersonController/DemoScenes/3rdPersonController-Demo.unity
-    guid: 00000000000000000000000000000000
-  - enabled: 1
+    guid: 69d4f09bf9858e84c909f425763e7428
+  - enabled: 0
     path: Assets/Invector-3rdPersonController/DemoScenes/2.5DController-Demo.unity
-    guid: 00000000000000000000000000000000
-  - enabled: 1
+    guid: e927db1e955033c40af976882786e471
+  - enabled: 0
     path: Assets/Invector-3rdPersonController/DemoScenes/IsometricController-Demo.unity
-    guid: 00000000000000000000000000000000
-  - enabled: 1
+    guid: 71904242b6acf71419913d886cbaceff
+  - enabled: 0
     path: Assets/Invector-3rdPersonController/DemoScenes/TopDownController-Demo.unity
-    guid: 00000000000000000000000000000000
-  - enabled: 1
+    guid: 0a8362ad08d7aa2498518a2f9391ad98
+  - enabled: 0
     path: Assets/Invector-3rdPersonController/DemoScenes/V-Mansion.unity
-    guid: 00000000000000000000000000000000
+    guid: ba61e6b88ded1e746b043d076374a898
   - enabled: 0
     path: Assets/Invector-3rdPersonController/DemoScenes/3rdPersonController-Mobile.unity
-    guid: 00000000000000000000000000000000
+    guid: 6b2059c7826e7ee46988bf5d316a68bd
   m_configObjects: {}

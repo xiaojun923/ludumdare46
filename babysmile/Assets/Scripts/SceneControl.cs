@@ -173,10 +173,10 @@ namespace LD46
         private void PlayerHandSpawnItem(GameObject player, int configId)
         {
             string prefabName = SpawnItemPath[configId];
-            var obj = Resources.Load<GameObject>($"Assets/Prefab/Interactable/RuntimeSpawn/{prefabName}.prefab");
+            var obj = Resources.Load<GameObject>($"RuntimeSpawn/{prefabName}");
             if (obj == null)
             {
-                Debug.LogError("Prefab路径不存在，实例化失败");
+                Debug.LogError("Prefab路径不存在，实例化失败" + $"RuntimeSpawn/{prefabName}");
                 return;
             }
 
