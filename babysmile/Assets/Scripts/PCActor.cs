@@ -63,7 +63,7 @@ public class PCActor : MonoBehaviour
                 BabySmileManager.SetItemState(itemid, 2);
                 //表现层改状态为邮件
                 SceneControl.Instance.InteractItems[itemid].GetComponent<SceneItem>().Status = 2;
-                OnEndJob();
+                OnShowJob();
             }
         }
         else if(pcStat == 2)
@@ -77,7 +77,7 @@ public class PCActor : MonoBehaviour
                 //表现层改状态为关机
 
                 SceneControl.Instance.InteractItems[itemid].GetComponent<SceneItem>().Status = 1;
-                OnShowJob();
+                OnEndJob();
             }
         }
     }
