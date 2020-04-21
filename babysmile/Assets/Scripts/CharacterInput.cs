@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 
 namespace LD46
@@ -18,6 +19,8 @@ namespace LD46
         
         public void Awake()
         {
+            InputSystem.RegisterInteraction<KeepHoldInteraction>();
+            
             _input = new InputControl();
 
             _input.KeyboardCharacterControl.Interact.started += context =>

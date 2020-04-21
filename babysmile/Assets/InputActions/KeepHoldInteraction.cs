@@ -10,15 +10,15 @@ using UnityEngine.InputSystem.Editor;
 
 namespace LD46
 {
-#if UNITY_EDITOR
-    [InitializeOnLoad]
-    public class CustomInteractionInitializeTempClass {
-        static CustomInteractionInitializeTempClass()
-        {
-            InputSystem.RegisterInteraction<KeepHoldInteraction>();
-        }
-    }
-#endif
+// #if UNITY_EDITOR
+//     [InitializeOnLoad]
+//     public class CustomInteractionInitializeTempClass {
+//         static CustomInteractionInitializeTempClass()
+//         {
+//             InputSystem.RegisterInteraction<KeepHoldInteraction>();
+//         }
+//     }
+// #endif
     
     [Preserve]
     [DisplayName("KeepHold")]
